@@ -1,0 +1,259 @@
+\documentclass{koala-fr}
+\usepackage[english, french]{babel}
+\usepackage{lastpage}
+\usepackage{pdfpages}
+\renewcommand{\arraystretch}{1.5} %% Aeration des tableaux
+\hyphenpenalty 10000
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+\renewcommand{\headrulewidth}{0.8pt}
+\renewcommand{\footrulewidth}{0.8pt}
+\fancyhead[R]{\nouppercase{\leftmark}}
+\lfoot{EIP 2014, Mobii - Documentation utilisateur}
+\rfoot{\thepage/\pageref{LastPage}}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+
+\begin{document}
+
+\title{Documentation utilisateur}
+\subtitle{Mobii}
+
+\member{Geoffrey Aubert - }{geoffrey1.aubert@epitech.eu}
+\member{Nicolas De-Thore - }{nicolas.de-thore@epitech.eu}
+\member{Camille Gardet - }{camille.gardet@epitech.eu}
+\member{Sebastien Guillerm - }{sebastien.guillerm@epitech.eu}
+\member{Nicolas Laille - }{nicolas.laille@epitech.eu}
+\member{Pierre Le - }{pierre.le@epitech.eu}
+\member{Clement Morissard - }{clement.morissard@epitech.eu}
+
+\summary
+{
+  Aujourd'hui, le marché du smartphone est florissant, le nombre de modèle ne cesse de croître et chaques
+  entreprises utilisent sa propre plateforme pour son produit.
+  \newline
+  \newline
+  L'utilisateur possédent plusieurs téléphone, ou ayant fait l'acquisition d'un modèle plus récent
+  mais d'une marque différente de son ancien modèle doit donc jongler avec les différentes logiciels proposés
+  par les constructeurs pour gérer les données de ses téléphones.
+  \newline
+  \newline
+  \emph{Mobii} propose à ces utilisateurs \textbf{un seul outil}.
+  Il pourra ainsi synchroniser des données, effectuer des sauvegardes,
+  transférer sa médiathèque d'un téléphone à un autre plus facilemment.
+  \newline
+  \newline
+  Mais pas seulement ! L'utilisateur pourra aussi se passer de son téléphone dès lors qu'il est sur son
+  ordinateur. L'application \emph{Mobii} sur ordinateur permettra de recevoir et d'émettre des appels,
+  d'envoyer et de recevoir des SMS via le téléphone.
+  \newline
+  \newline
+  Des applications similaires à la notre existent déjà, mais elles ne sont pas multi-plateforme ou leurs
+  fonctionnalités sont trop limités, ou bien obsolètes car non mise à jour.
+  \newline
+  \newline
+  \newline
+  \newline
+  Ce document décrit en détail l'utilisation des applications \emph{Mobii}, ainsi que leurs fonctionnalites, a un utilisateur neophyte ou non.
+}
+
+\maketitle
+
+\newpage
+\thispagestyle{empty}
+
+\section*{Description du document}
+\begin{tabular}{|l|l|}
+  \hline \cellcolor{lightgray}Titre & EIP 2014 - Documentation utilisateur \\
+  \hline \cellcolor{lightgray}Date & 29 Mai 2013 (29/05/2013) \\
+  \hline \cellcolor{lightgray}Auteur & Groupe Mobii \\
+  \hline \cellcolor{lightgray}Responsable & Nicolas Laille \\
+  \hline \cellcolor{lightgray}E-mail & mobii\_2014@labeip.epitech.eu \\
+  \hline \cellcolor{lightgray}Sujet & Documentation utilisateur du projet Mobii \\
+  \hline \cellcolor{lightgray}Version & 3 \\
+  \hline
+\end{tabular}
+
+\section*{Tableau des révisions}
+\begin{tabular}{|l|l|l|m{8cm}|}
+  \hline \rowcolor{lightgray} Date & Auteur & Version & Commentaires \\
+  \hline
+  \hline 21/03/2013 & Groupe & 1.0 & Création du document \\
+  \hline 29/05/2013 & Groupe & 3.0 & Modification et assemblage du document \\
+  \hline
+\end{tabular}
+
+\newpage
+
+\tableofcontents
+
+\thispagestyle{fancy}
+\newpage
+
+\chapter{Client Mobii}
+\section{Installation}
+L’application client Mobii ne requiert aucune installation particulière. Il vous suffit simplement de lancer l’exécutable afin de bénéficier de toutes les fonctionnalités de Mobii.
+
+\begin{figure}[!ht]
+  \center
+  \includegraphics{icon.png}
+  \caption{Exécutable de Mobii}
+\end{figure}
+
+\section{Ecran d’accueil}
+Une fois l’application démarrée, vous verrez s’afficher l’écran d’accueil de l’application.
+
+\begin{figure}[!ht]
+  \center
+  \includegraphics[width=15cm]{window_FR.png}
+  \caption{Ecran d'accueil de Mobii}
+\end{figure}
+
+La fenêtre principale de l’application se présente en trois zones :
+\begin{itemize}
+\item\textbf{Barre d’état}
+\newline
+Cette zone vous indique l’état actuel de la connexion au serveur et au téléphone. De façon générale, la barre est rouge lorsqu’il y a un problème ou lorsqu’aucune connexion n’est établie, verte si vous êtes bien connecté.
+\newline
+Elle contient également un bouton ``Connexion'' vous permettant de vous connecter au serveur Mobii.
+\item\textbf{Barre d’options}
+\newline
+Cette barre présente les fonctionnalités principales de l’application, vous permettant ainsi de configurer de nouvelles connexions ou encore de modifier les paramètres de l’application.
+
+Lorsque vous serez connecté, de nouveaux boutons apparaîtront, correspondant aux fonctionnalités prises en charge pour votre téléphone.
+\item\textbf{Zone contenu}
+\newline
+La zone contenu présente comme son nom l’indique le contenu de chacune des fonctionnalités de la barre d’options.
+\end{itemize}
+
+\section{Connexion au serveur Mobii}
+Pour vous connecter au serveur Mobii, cliquez sur le bouton « Connexion » en haut de la fenêtre, dans la barre d’état.
+\newline
+\newline
+La fenêtre de connexion suivante s’affichera :
+\begin{figure}[!ht]
+  \center
+  \includegraphics{login.PNG}
+  \caption{Fenêtre de connexion}
+\end{figure}
+
+Depuis cette fenêtre, vous pourrez entrez vos identifiants de connexion afin de vous connecter au serveur Mobii.
+\newline
+\newline
+Une fois votre nom d’utilisateur et votre mot de passe entrés, cliquez sur le bouton « Se connecter ».
+\newline
+\newline
+Si vous avez changé d’avis et ne souhaitez pas vous connecter pour l’instant, cliquez simplement sur « Annuler ».
+\newline
+\newline
+Si tout s’est bien passé, une boîte de dialogue vous informera que la procédure s’est bien passée. Sinon, une brève explication de l’erreur rencontrée vous sera fournie.
+\newline
+\newline
+Lorsque la connexion est établie, les fonctionnalités disponibles pour le téléphone connecté sont affichées dans la barre d'outils en haut de la fenêtre Mobii, à côté du bouton d'accueil.
+
+\section{Onglet d'informations sur le mobile}
+Cette fonctionnalité est disponible une fois la connexion au téléphone établie.
+\newline
+\newline
+L'onglet d'informations mobile affiche certaines informations concernant le smartphone auquel le client est actuellement connecté.
+
+\begin{figure}[!ht]
+  \center
+  \includegraphics{mobile_infos.PNG}
+  \caption{Informations matérielles sur un téléphone}
+\end{figure}
+
+La nature de ces informations n'est pas fixe. Elle peut différer en fonction du type ou du modèle de téléphone. En général, certaines informations sont rendues disponibles sur la plupart des plateformes :
+
+\begin{itemize}
+\item\textbf{Numéro IMEI}
+\newline
+Le numéro IMEI est un identifiant unique sur 15 chiffres permettant d'identifier de façon unique un téléphone. En théorie, deux téléphones ne peuvent posséder le même IMEI dans le monde.
+\item\textbf{Marque et/ou modèle}
+\newline
+Nom de la marque ou identifiant de modèle correspondant au téléphone connecté. Le formatage et la nature des informations affichées dans cette catégorie sont définis par le constructeur du mobile.
+\end{itemize}
+
+\section{Onglet SMS}
+Cette fonctionnalité est disponible une fois la connexion au téléphone établie.
+\newline
+\newline
+Comme son nom l'indique, l'onglet SMS vous permet d'accéder aux SMS présents sur votre téléphone portable. Un clic sur le bouton « Récupérer les derniers SMS » permettra de télécharger les SMS les plus récents depuis votre smartphone.
+
+\begin{figure}[!ht]
+  \center
+  \includegraphics{sms.PNG}
+  \caption{Exemple de SMS récupérés sur un téléphone connecté}
+\end{figure}
+
+\thispagestyle{fancy}
+\newpage
+
+\section{Configuration}
+Vous pouvez ouvrir la fenêtre de configuration de Mobii en cliquant sur le bouton « Options » de la barre d’options. Une fenêtre de dialogue avec plusieurs onglets s’affichera.
+\newline
+\newline
+Il vous est possible de valider ou d’annuler vos modifications depuis n’importe quel onglet en cliquant sur les boutons « Annuler » ou « Confirmer », situés en bas de la fenêtre.
+
+\subsection{Onglet général}
+
+\begin{figure}[!ht]
+  \center
+  \includegraphics{config_general.PNG}
+  \caption{Configuration - Onglet général}
+\end{figure}
+
+Cet onglet présente des options générales de l’application Mobii.
+
+\begin{itemize}
+\item\textbf{Langue}
+\newline
+Permet de changer la langue de l’application. Pour l’instant, seul le français est proposé.
+\end{itemize}
+
+\thispagestyle{fancy}
+\newpage
+
+\subsection{Réseau}
+
+\begin{figure}[!ht]
+  \center
+  \includegraphics{config_network.PNG}
+  \caption{Configuration - Onglet réseau}
+\end{figure}
+
+L’onglet réseau vous permet de modifier les paramètres de connexion au serveur Mobii. Vous pouvez décider d’utiliser le serveur principal de Mobii ou de vous connecter à un serveur tiers, par le biais des champs « Adresse » et « Port ».
+
+\chapter{Application smartphone Mobii}
+\section{Fonctionnalites}
+L'application permettra :
+\begin{itemize}
+  \item la gestion le contenu multimédia de son smartphone : ajout/suppression de musiques, vidéos et autres fichiers,
+  \item la gestion du répertoire : ajout/suppression/modifications de contacts,
+  \item l’envoi et la réception de sms et d’appels,
+  \item la sauvegarde et la récupération du contenu de son smartphone.
+\end{itemize}
+
+\section{Illustrations}
+L'agencement des elements peuvent varier selon le systeme du smartphone (Windows Phone, iOS ou Android), mais les fonctionnalites sont les memes.
+
+\begin{figure}[!ht]
+  \center
+  \includegraphics{Connection_Android.jpg}
+  \caption{Accueil de l'application}
+\end{figure}
+
+Au démarrage de l’application, cliquer sur « connection » afin de faire la liaison avec le serveur.
+
+\begin{figure}[!ht]
+  \center
+  \includegraphics{Options_Android.jpg}
+  \caption{Options de connexion}
+\end{figure}
+
+Il est possible de modifier certains paramètres, en l’occurrence le lancement de l’application au démarrage du smartphone, le choix de se connecter de manière sécurisée ou non, et la possibilité d’autoriser la connexion seulement lorsque le Wi-Fi est disponible.
+
+\end{document}
