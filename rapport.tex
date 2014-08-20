@@ -207,10 +207,24 @@ Languages or tools that \textbf{must} be used to implement the module. \emph{Lib
 
 \section{System/Subsystem Design Description (SSDD)}
 \subsection{Design principle}
+For each main part of the module, a description about the way it will be designed should be made. It can be data exchange, communication channel or error and configuration management.
 
+\subsection{Software structure}
+\emph{What is the internal structure ?}
+\newline
+It can be a tree view, with details about folders, what it contains, why is it used. Third party library are also mentioned here, with proper explanations given on its usage.
 
-\subsection{System structure}
-tba
+\subsection{System operating}
+The huge part. The scale is the function, what does it do and how, and such, for each function in each part of the module. A flow-chart is highly recommended.
+\newline
+\newline
+Short example for \emph{Libprelude} and the function to initialise the library :
+
+\begin{figure}[!ht]
+  \center
+  \includegraphics{sysop.png}
+  \caption{Description of the library init function in Libprelude}
+\end{figure}
 
 \thispagestyle{fancy}
 \newpage
@@ -220,7 +234,7 @@ tba
 To develop features on Prelude, it's recommended to use :
 \begin{itemize}
   \item CentOS 6 virtual machine,
-  \item Python 2,
+  \item Python 2.6,
   \item C, standard C89,
   \item Redmine, for project management and bug-tracking tool,
   \item Latest version of Prelude, found on \url{http://www.prelude-ids.org}
@@ -240,17 +254,72 @@ Since its version 3.1.12, the tool is maintained by Kenneth Lavrsen and a small 
 Homepage : \url{http://www.lavrsen.dk/foswiki/bin/view/Motion/WebHome}
 
 \subsection{Implementation}
-Using libprelude, where to plug it
+The motion source code is well commented. It is easy to navigate in.
+\newline
+\newline
+The files \emph{motion.c} and \emph{motion.h} contains the code where a movement is detected. An alert should be raised from these files.
+\newline
+\newline
+Motion use a structure \emph{context} which includes the whole software configuration during its execution, and the last recorded pictures.
+Prelude initialisation is done at this structure initialisation :
+\begin{lstlisting}
+  AlertPreludeCtx *prelude_ctx = AlertPreludeInitCtx();
+  cnt->prelude_context = prelude_ctx;
+\end{lstlisting}
+The function \emph{AlertPreludeInitCtx()} initialise a Prelude context.
+\newline
+\newline
+The function \emph{motion\_loop()} is a infinite loop to capture the video stream, and detect a movement. The alert-raising code is inserted :
+\begin{lstlisting}
+  AlertPrelude(cnt->prelude_context, cnt->current_image);
+\end{lstlisting}
+The function \emph{AlertPrelude()} create and send an alert to the \emph{Prelude Manager} with the current image as extra data, to display it for example.
+
 \subsection{Results}
-screenshots
+After registering Motion in Prelude and running it, it appears as a probe in \emph{Prewikka}.
+\begin{figure}[!ht]
+  \center
+  \includegraphics[width=15cm]{motionprobe.png}
+  \caption{Motion as a probe in Prewikka}
+\end{figure}
+
+And it generates some alerts as well.
+\begin{figure}[!ht]
+  \center
+  \includegraphics[width=15cm]{motionalerts.png}
+  \caption{Alerts raised by Motion in Prewikka}
+\end{figure}
 
 \section{Enhance statistics in Prewikka}
+Create new visualisation graph to diversify statistics / forensics.
 \subsection{One library, to rule them all}
-d3js
+Old graph are Adobe Flash based, an ageing technology.
+\newline
+\newline
+Instead, Javascript is recommended in this case and already used in \emph{Prewikka}. After a small research, the library \textbf{D3.js} seems to fulfill all the needs.
+\newline
+\newline
+\emph{D3} binds arbitrary data to a Document Object Model (DOM), and then apply data-driven transformations to the document. For example, \emph{D3} generates an HTML table from an array of numbers. Or, use the same data to create an interactive SVG bar chart with smooth transitions and interaction.
+\newline
+\newline
+Homepage : \url{http://d3js.org/}
+\newline
+Example gallery : \url{https://github.com/mbostock/d3/wiki/Gallery}
+
 \subsection{Implementation}
-template, views, filter, list of graphics, only js
-first -> csv
-final -> libpreludeDB
+For any graphes, the first step is to create a standalone version, working offline, supplied from a CSV data file. Data can be IDMEF fields like :
+\begin{lstlisting}
+``IP Source'', ``IP Target'', ``Assessment'', ``Analyzer'', ``Date''
+``10.10.10.3'',''232.136.239.176'',''Bruteforce'',''Prelude-LML'',''24/02/2005T11:45''
+``10.10.10.20'',''193.227.171.216'',''SSH Failed'',''Snort'',''09/02/2005T14:59''
+``10.10.10.16'',''106.190.182.175'',''SSH Failed'',''OSSEC'',''09/10/2007T09:06''
+\end{lstlisting}
+
+Each line is an alert. A python script is provided in appendix to generate this kind of file.
+\newline
+\newline
+
+
 \subsection{Results}
 screenshots!
 
@@ -267,10 +336,128 @@ screenshots!!
 \thispagestyle{fancy}
 \newpage
 
+\chapter{Appendix}
+\section{Python script to generate alert}
+\begin{lstlisting}
+#!/usr/bin/env python3
+"''
+Generate alert and store them in a CSV file, formated like :
+``target'', ``source'', ``classification'', ``analyzer'', ``date'',
+   ^         ^            ^               ^         ^
+   |         |            |               |         |
+   |         |            |               |         --------- The date of the alert, format : DD/MM/YYYYTHH:MM
+   |         |            |               |
+   |         |            |               ------------------- Analyzer name, which create the alert
+   |         |            |
+   |         |            ----------------------------------- Type of the alert
+   |         |
+   |         ------------------------------------------------ IP of the device which create the alert
+   |
+   ---------------------------------------------------------- IP of the device which has been targeted
+
+Contiguous IP are generated with the function ipRange(start, end), to simulate a targeted network.
+Where ``start'' is the first IP in the range and ``end'', the last. Both type are strings.
+E.g. : ipRange(``192.168.1.0'', ``192.168.1.5'') will return a list including :
+[ ``192.168.1.0'', ``192.168.1.2'', ``192.168.1.3'', ``192.168.1.4'', ``192.168.1.5'' ]
+
+Random date are generated with the function randomDate(start, end), to simulate attacks on a period of time.
+Where ``start'' is the beginning of a period, and ``end'', the end of it. Both type are datetime.
+
+IP Source are randomly generated and stored in a list.
+Classification and analyzer are randomly picked from an established list. Lazy, I know.
+
+And finally, the CSV is written, line by line, picking a ``random'' settings each loop. ``Random'' because
+the random module should be called ``pseudo-random'':
+> Generate 5000 alerts.
+> You have a list of 5 analyzers.
+> You will have a CSV where each analyzer appears around 1000 times.
+> That's not a place to talk about that.
+"''
+
+import os
+import sys
+import random
+import csv
+import json
+import time
+from datetime import timedelta
+from datetime import datetime
+from random import randint
+
+# How many IP source do you want ?
+nb_ip_source = 5
+# How many alert (line in the CSV file) do you want ? /!\ The higher, the harder to compute (for the diagram) /!\
+nb_alert = 5000
+
+def ipRange(start_ip, end_ip):
+   start = list(map(int, start_ip.split(``.'')))
+   end = list(map(int, end_ip.split(``.'')))
+   temp = start
+   ip_range = []
+
+   ip_range.append(start_ip)
+   while temp != end:
+      start[3] += 1
+      for i in (3, 2, 1):
+         if temp[i] == 256:
+            temp[i] = 0
+            temp[i-1] += 1
+      ip_range.append(``.''.join(map(str, temp)))
+
+   return ip_range
+
+
+def randomDate(start, end):
+   return (start + timedelta(seconds=randint(0, int((end - start).total_seconds())))).strftime('%d/%m/%YT%H:%M')#.date()
+
+
+def main(argv=None):
+   target_list = ipRange(``10.10.10.1'', ``10.10.10.20'')
+   source_list = [ ]
+   classification_list = [ ``SSH Failed'', ``Bruteforce'', ``DDoS'', ``Eth. Sniffing'', ``Buffer overflow'' ]
+   analyzer_list = [ ``Prelude-LML'', ``Suricata'', ``OSSEC'', ``Samhain'', ``Snort'' ]
+   date_begin = datetime.strptime(``01 Jan 00'', ``%d %b %y'')
+   date_end = datetime.strptime(``31 Dec 14'', ``%d %b %y'')
+   # We list the index here, to write it on the first line of the CSV file
+   indexes = [``target'', ``source'', ``classification'', ``analyzer'', ``date'']
+
+   for j in range(nb_ip_source):
+      source_list.append('.'.join('%s'%random.randint(0, 255) for i in range(4)))
+
+   with open('alert.csv', 'w') as csvfile:
+      spamwriter = csv.writer(csvfile, delimiter=',', quotechar='''', quoting=csv.QUOTE_ALL)
+      spamwriter.writerow(indexes)
+      for i in range(nb_alert):
+         spamwriter.writerow([random.choice(target_list),
+                              random.choice(source_list),
+                              random.choice(classification_list),
+                              random.choice(analyzer_list),
+                              randomDate(date_begin, date_end)])
+
+   return 0
+
+if __name__==''__main__'':
+   status = main()
+   sys.exit(status)
+\end{lstlisting}
+
+\thispagestyle{fancy}
+\newpage
+
 %% Lexicon
 
 \printglossary[style=altlisthypergroup]
 \addcontentsline{toc}{chapter}{Glossary}
+
+\thispagestyle{fancy}
+
+\part{Letter to my internship supervisor}
+Not Today !
+
+\thispagestyle{fancy}
+
+\part{Letter to a high supervisor}
+Not Today !
 
 \thispagestyle{fancy}
 \end{document}
