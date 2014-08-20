@@ -18,7 +18,7 @@
 \setcounter{secnumdepth}{5}
 \setcounter{tocdepth}{5}
 \newcommand*{\glossaryname}{Dictionary}
-\usepackage[numberedsection]{glossaries}
+\usepackage{glossaries}
 \newcommand{\dictentry}[2]{%
   \newglossaryentry{#1}{name=#1,description={#2}}%
   \glslink{#1}{#1*}%
@@ -43,14 +43,6 @@
      \item A part to convince a high supervisor (non-technical) to entrust you with the full responsibility for a project, from start to finish, with customer contacts.
   \end{itemize}
   Word with a star in its right upper corner is defined in the glossary at the end of this document. It's clickable (only for numeric version, should I precise this ?).
-  \newline
-  \newline
-  \newline
-  \newline
-  I would like to thank my supervisor \textbf{M. Thomas ANDREJAK} who supervised and mentored my work, for his attention and for all the time he awarded to me.
-  \newline
-  \newline
-  I also thank the whole \emph{Prelude} team, consists of \textbf{M. Gilles LEHMANN}, \textbf{M. Antoine LUONG}, \textbf{M. Avinash PARDESSY}, \textbf{M. Song TRAN}, \textbf{M. Enguerrand DE MAUDUIT}, \textbf{M. Jean-Charles ROGEZ}, \textbf{M. Thomas BURGUIERE} and \textbf{M. Vincent QUEMENER}, who were always ready to help me.
 }
 
 \maketitle
@@ -60,8 +52,7 @@
 
 \tableofcontents
 
-\clearpage
-\thispagestyle{empty}
+\thispagestyle{fancy}
 \newpage
 
 \part{Documentation for a newcomer}
@@ -185,13 +176,13 @@ A small flow-chart to illustrate this is strongly recommended.
 \end{figure}
 
 Followed by :
-
 \begin{lstlisting}
   LIB_USE_VERSION : Check library version
   How : Use a function to return the version
   Why : The version can be checked before the initialisation
-\end{lstlisting}
 
+  ...
+\end{lstlisting}
 Same for the init and unload part.
 
 \subsection{External interface requirements}
@@ -210,6 +201,9 @@ Everything environment related, like \emph{Should my library be crossplatform ?}
 
 \subsection{Definition and conception constraints}
 Languages or tools that \textbf{must} be used to implement the module. \emph{Libprelude} must be written in C for example.
+
+\thispagestyle{fancy}
+\newpage
 
 \section{System/Subsystem Design Description (SSDD)}
 \subsection{Design principle}
@@ -295,8 +289,6 @@ And it generates some alerts as well.
   \includegraphics[width=15cm]{motionalerts.png}
   \caption{Alerts raised by Motion in Prewikka}
 \end{figure}
-
-The version of \emph{Motion} with \emph{Prelude} patch is provided in the link in the appendix.
 
 \thispagestyle{fancy}
 \newpage
@@ -389,10 +381,10 @@ It is used in \emph{Prelude} to locate the source of an alert.
 Actually, only public IP addresses can be identified, which is how the tools performs. It might be possible to create custom IP range and associate them to a custom location.
 \newline
 \newline
-\emph{How GeoIP works ?} Range of IP are stored in a database and linked to a location. E.g. : 2.0.0.0 to 2.15.255.255 are reserved to \emph{France Telecom}. With this, it is easy to compare and get the location name of a determined IP. The IP database used is highly optimized, not directly readable and \emph{Maxmind} does not provide tools to modify it. So, the principle is finding a way to decypher it, insert custom range, and re-cypher it. However, the database exists in a CSV file format, avoiding the decyphering step, and implying a regeneration of the database binary formated.
+\emph{How GeoIP works ?}. Range of IP are stored in a database and linked to a location. E.g. : 2.0.0.0 to 2.15.255.255 are reserved to \emph{France Telecom}. With this, it is easy to compare and get the location name of a determined IP. The IP database used is highly optimized, not directly readable and \emph{Maxmind} does not provide tools to modify it. So, the principle is finding a way to decypher it, insert custom range, and re-cypher it. However, the database exists in a CSV file format, avoiding the decyphering step, and implying a regeneration of the database binary formated.
 \newline
 \newline
-Same process as the graphes, a view and a template must be created. The template is a simple HTML form with the necessary fields to fill up a custom range. The view is python code to parse the GeoIP CSV file and store it in a dictionnary. The file is provided in the appendix.
+Same process as the graphes, a view and a template must be created. The view is a simple HTML form with the necessary fields to fill up a custom range. The view is python code to parse the GeoIP CSV file and store it in a dictionnary. The file is provided in the appendix.
 
 \subsection{Results}
 As seen below, the form displays :
@@ -400,7 +392,7 @@ As seen below, the form displays :
   \item ``Create a range'', to create a location with its long name, associate to a two letters short name,
   \item ``Select a range'', load or delete existing range. The loaded range displays IP in the field ``IP range'',
   \item ``IP range'', shows all IP range of the location, with the possibility to massive deletion/insertion and submit modification,
-  \item ``Export to GeoIP binary file'', converts the CSV file format to binary database, used by all the API provided by \emph{Maxmind}
+  \item ``export to GeoIP binary file'', converts the CSV file format to binary database, used by all the API provided by \emph{Maxmind}
 \end{itemize}
 
 \begin{figure}[!ht]
@@ -411,20 +403,8 @@ As seen below, the form displays :
 
 \chapter{Final word}
 
-Working on this kind of project is challenging. The documentation improve your knowledge about the system, but also your writing style. The IDMEF format is barely used, wrongly, and tend toward to be used. Technically, both old and new languages are used, C, Python, SQL, JavaScript, making \emph{Prelude} an all-round project.
-\newline
-\newline
-Personnaly, I wish to join the \emph{Prelude} team and continue to work on the enhancement and modernization of the project.
-
 \thispagestyle{fancy}
 \newpage
-
-
-%% Lexicon
-
-\printglossary[style=altlisthypergroup]
-
-\thispagestyle{fancy}
 
 \chapter{Appendix}
 
@@ -623,6 +603,14 @@ class CSVReader:
         return self.db
 
 \end{lstlisting}
+
+\thispagestyle{fancy}
+\newpage
+
+%% Lexicon
+
+\printglossary[style=altlisthypergroup]
+\addcontentsline{toc}{chapter}{Glossary}
 
 \thispagestyle{fancy}
 
